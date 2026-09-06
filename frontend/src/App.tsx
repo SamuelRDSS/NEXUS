@@ -1,26 +1,23 @@
-import { useState } from 'react'
-import { Bell, Compass, Gamepad2, Heart, Home, MessageCircle, Plus, Search, Sparkles, Users } from 'lucide-react'
 import './App.css'
 import './assets.css'
-
-const posts = [
-  { author: 'Reika Sato', handle: '@reika_neo', text: 'Terminei a última temporada e preciso conversar com alguém sobre esse final. A cena final foi tão absurda quanto perfeita.', likes: '1.2K', comments: '183', tag: '#Final' },
-  { author: 'Lucas Yamada', handle: '@lucas_uchiha', text: 'Minha lista de quero assistir ficou absurda, mas cada uma dessas séries merece uma semana inteira de maratona.', likes: '864', comments: '61', tag: '#Recomendação' },
-  { author: 'Ana Kuroda', handle: '@ana_quest', text: 'O melhor personagem de RPG não é o mais forte, mas o mais memorável. Tenho uma teoria sobre protagonistas quebrados.', likes: '2.1K', comments: '218', tag: '#Discussão' },
-]
+import { Navbar } from './components/Navbar'
+import { Hero } from './components/Hero'
+import { Feed } from './components/Feed'
+import { AnimeGrid } from './components/AnimeGrid'
+import { FloatingButton } from './components/FloatingButton'
+import { MobileNav } from './components/MobileNav'
 
 function App() {
-  const [liked, setLiked] = useState<number[]>([])
-  const toggleLike = (index: number) => setLiked((current) => current.includes(index) ? current.filter((item) => item !== index) : [...current, index])
-
   return (
     <div className="app-shell">
-      <header className="topbar"><a className="brand" href="#top"><span className="brand-mark"><Sparkles size={18} /></span>NEXUS OTAKU</a><nav><a href="#feed">Feed</a><a href="#explore">Explorar</a><a href="#community">Comunidade</a></nav><div className="header-actions"><button className="icon-button" aria-label="Pesquisar"><Search size={18} /></button><button className="icon-button" aria-label="Notificações"><Bell size={18} /><span className="notification-dot" /></button><span className="user-badge"><span className="avatar">S</span>Samuel</span></div></header>
+      <Navbar />
       <main id="top">
-        <section className="hero"><div className="hero-copy"><p className="live-status"><span className="pulse-dot" /> 2.4K otakus conectados agora</p><h1>Seu universo.<br />Seus animes.<br />Sua comunidade.</h1><p>Encontre pessoas que compartilham os mesmos animes, personagens, jogos e obsessões que você.</p><div className="hero-actions"><button className="primary-button">Entrar na comunidade <Users size={17} /></button><button className="secondary-button">Explorar animes <Compass size={17} /></button></div><div className="stat-line"><span><strong>128K</strong> otakus ativos</span><span><strong>4.8K</strong> posts hoje</span><span><strong>91%</strong> compatibilidade média</span></div></div><div className="hero-visual"><span className="hero-visual-tag">Comunidade em destaque · Jujutsu Kaisen</span><div className="hero-visual-caption"><span className="pulse-dot" /> Ao vivo agora</div></div></section>
-        <section className="content-grid" id="feed"><div><div className="section-heading"><div><span className="section-kicker">AGORA NA COMUNIDADE</span><h2>Feed Otaku</h2></div><span className="live-pill"><i /> 2.3K posts hoje</span></div><div className="post-list">{posts.map((post, index) => <article className="post-card" key={post.author}><div className="post-author"><span className="avatar avatar-large">{post.author[0]}</span><div><strong>{post.author}</strong><span>{post.handle} · {index * 13 + 3} min atrás</span></div><button className="more-button" aria-label="Mais opções">•••</button></div><p>{post.text}</p><div className="post-tags"><span>{post.tag}</span><span>#Anime</span></div><div className="post-actions"><button className={liked.includes(index) ? 'action-button liked' : 'action-button'} onClick={() => toggleLike(index)}><Heart size={16} fill={liked.includes(index) ? 'currentColor' : 'none'} />{liked.includes(index) ? 'Curtido' : post.likes}</button><button className="action-button"><MessageCircle size={16} />{post.comments}</button><button className="action-button"><span>↗</span> Compartilhar</button></div></article>)}</div></div><aside className="sidebar"><section className="profile-panel"><span className="avatar profile-avatar">S</span><h3>Samuel</h3><span className="muted">@samuel_otaku</span><span className="level-label">OTAKU VETERANO · NÍVEL 27</span><div className="progress"><span /></div><small>1.420 XP <b>/ 1.700 XP</b></small></section><section className="side-panel" id="community"><div className="panel-title"><h3>Match otaku</h3><span>Ver todos</span></div>{['Lucas', 'Ana', 'Yuri'].map((name, index) => <div className="match-row" key={name}><span className="avatar">{name[0]}</span><div><strong>{name}</strong><span>@{name.toLowerCase()}_quest</span></div><b>{94 - index * 3}%</b></div>)}</section><section className="side-panel"><div className="panel-title"><h3>Seus interesses</h3><Gamepad2 size={17} /></div><div className="interest-list"><span>Jujutsu Kaisen</span><span>Elden Ring</span><span>Cyberpunk</span><span>Mind games</span></div></section></aside></section>
-        <section className="explore-section" id="explore"><div className="section-heading"><div><span className="section-kicker">DESCUBRA NOVOS MUNDOS</span><h2>Explorar animes</h2></div><button className="text-button">Ver catálogo completo <span>→</span></button></div><div className="anime-grid">{[['Tokyo Requiem','Ação · Shonen · Fantasia','9.2'],['Silent Cipher','Psicológico · Mistério','9.4'],['Neon Drift','Cyberpunk · Sci-fi','8.9']].map(([title, genre, score], index) => <article className={`anime-card anime-${index}`} key={title}><div className="anime-art"><span>★ {score}</span></div><div className="anime-info"><h3>{title}</h3><p>{genre}</p><button className="secondary-button">+ Minha lista</button></div></article>)}</div></section>
-      </main><button className="floating-button"><Plus size={20} /> Criar post</button><nav className="mobile-nav"><a className="active" href="#top"><Home size={18} />Início</a><a href="#explore"><Search size={18} />Explorar</a><a href="#feed"><Plus size={18} />Postar</a><a href="#community"><Heart size={18} />Comunidade</a><a href="#top"><Users size={18} />Perfil</a></nav>
+        <Hero />
+        <Feed />
+        <AnimeGrid />
+      </main>
+      <FloatingButton />
+      <MobileNav />
     </div>
   )
 }

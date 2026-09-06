@@ -1,13 +1,13 @@
 .app-shell {
   background:
     linear-gradient(180deg, rgba(9, 11, 18, 0.72), rgba(9, 11, 18, 0.96)),
-    url('/assets/page-background.jpg') center top / cover fixed;
+    url('/assets/otaku-1.jpg') center top / cover fixed;
 }
 
 .hero-visual {
   background:
     linear-gradient(90deg, rgba(9, 11, 18, 0.2), rgba(9, 11, 18, 0.03)),
-    url('/assets/character-banner.jpg') center / cover;
+    url('/assets/otaku-3.jpg') center / cover;
   border: 1px solid var(--line);
   border-radius: 24px;
   box-shadow: 0 24px 70px #0008;
@@ -21,21 +21,21 @@
 .avatar {
   background:
     linear-gradient(135deg, rgba(162, 125, 255, 0.5), rgba(54, 191, 214, 0.32)),
-    url('/assets/avatar.jpg') center / cover;
+    url('/assets/otaku-4.jpg') center / cover;
   background-blend-mode: screen;
   border-color: #ffffff44;
 }
 
 .anime-art {
-  background: url('/assets/hero-banner.jpg') center / cover;
+  background: url('/assets/otaku-3.jpg') center / cover;
 }
 
 .anime-1 .anime-art {
-  background-image: url('/assets/character-banner.jpg');
+  background-image: url('/assets/otaku-2.jpg');
 }
 
 .anime-2 .anime-art {
-  background-image: url('/assets/avatar.jpg');
+  background-image: url('/assets/otaku-4.jpg');
 }
 
 .anime-art::before {
@@ -44,7 +44,7 @@
 
 @media (max-width: 560px) {
   .hero-visual {
-    background-image: url('/assets/avatar.jpg');
+    background-image: url('/assets/otaku-2.jpg');
     background-position: center 18%;
   }
 }

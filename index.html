@@ -1,0 +1,2381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEXUS OTAKU</title>
+    <meta
+      name="description"
+      content="NEXUS OTAKU — microcomunidade otaku gamer com feed, animes, quizzes, rankings e comunidades."
+    />
+    <style>
+      :root {
+        --bg: #080812;
+        --bg-2: #101020;
+        --panel: rgba(17, 17, 31, 0.9);
+        --panel-2: rgba(22, 22, 38, 0.9);
+        --line: rgba(148, 163, 184, 0.18);
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --purple: #8b5cf6;
+        --magenta: #ec4899;
+        --cyan: #06b6d4;
+        --green: #34d399;
+        --yellow: #fbbf24;
+        --shadow: 0 20px 60px rgba(11, 13, 20, 0.6);
+        --radius: 24px;
+      }
+
+      * { box-sizing: border-box; }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Inter, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(139, 92, 246, 0.2), transparent 26%),
+          radial-gradient(circle at top right, rgba(6, 182, 212, 0.18), transparent 22%),
+          linear-gradient(180deg, #080812 0%, #0c0c18 100%);
+        color: var(--text);
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      a { text-decoration: none; color: inherit; }
+      button, input, textarea, select { font: inherit; }
+
+      .container {
+        width: min(1200px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .glass {
+        background: rgba(16, 16, 32, 0.72);
+        border: 1px solid var(--line);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+      }
+
+      .btn {
+        border: none;
+        border-radius: 14px;
+        padding: 0.9rem 1.3rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--purple), var(--magenta));
+        color: white;
+        box-shadow: 0 12px 30px rgba(139, 92, 246, 0.35);
+      }
+
+      .btn-secondary {
+        background: rgba(255,255,255,0.04);
+        color: var(--text);
+        border: 1px solid var(--line);
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid var(--line);
+        padding: 0.4rem 0.8rem;
+        color: var(--muted);
+        font-size: 0.75rem;
+        white-space: nowrap;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(8, 8, 18, 0.75);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        min-height: 82px;
+      }
+
+      .logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .logo-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--purple), var(--magenta), var(--cyan));
+        position: relative;
+        box-shadow: 0 0 25px rgba(139, 92, 246, 0.7);
+      }
+
+      .logo-mark::before,
+      .logo-mark::after {
+        content: "";
+        position: absolute;
+        inset: 9px;
+        border: 2px solid rgba(255,255,255,0.8);
+        border-radius: 9px;
+        transform: rotate(45deg);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        color: var(--muted);
+        flex-wrap: wrap;
+      }
+
+      .nav-links a {
+        transition: color 0.2s ease;
+        font-size: 0.92rem;
+      }
+
+      .nav-links a:hover { color: var(--text); }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .icon-btn {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.02);
+        color: var(--text);
+        position: relative;
+        cursor: pointer;
+      }
+
+      .dot {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--magenta);
+        box-shadow: 0 0 12px rgba(236, 72, 153, 0.9);
+      }
+
+      .user-chip {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 10px 7px 8px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--line);
+      }
+
+      .avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--purple), var(--cyan));
+        border: 2px solid rgba(255,255,255,0.2);
+      }
+
+      .avatar.large { width: 64px; height: 64px; }
+      .avatar.med { width: 52px; height: 52px; }
+
+      .mobile-toggle {
+        display: none;
+      }
+
+      .section {
+        padding: 48px 0;
+      }
+
+      .hero {
+        padding-top: 38px;
+        padding-bottom: 18px;
+      }
+
+      .hero-shell {
+        position: relative;
+        border-radius: 30px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 15% 20%, rgba(139, 92, 246, 0.28), transparent 18%),
+          radial-gradient(circle at 80% 24%, rgba(6, 182, 212, 0.25), transparent 20%),
+          linear-gradient(135deg, rgba(17,17,31,0.95), rgba(13,13,24,0.86));
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        min-height: 620px;
+      }
+
+      .hero-copy {
+        padding: 56px 56px 26px;
+        position: relative;
+      }
+
+      .hero-copy::before,
+      .hero-copy::after {
+        content: "";
+        position: absolute;
+        border: 1px solid rgba(148, 163, 184, 0.14);
+        border-radius: 50%;
+      }
+
+      .hero-copy::before {
+        width: 440px;
+        height: 440px;
+        right: -120px;
+        top: 60px;
+      }
+
+      .hero-copy::after {
+        width: 260px;
+        height: 260px;
+        right: -60px;
+        top: 120px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.75rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--cyan);
+        margin-bottom: 18px;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 30px;
+        height: 1px;
+        background: linear-gradient(90deg, var(--cyan), transparent);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.8rem, 4vw, 5rem);
+        line-height: 0.96;
+        letter-spacing: -0.05em;
+      }
+
+      .highlight {
+        background: linear-gradient(135deg, #f8fafc, #8b5cf6 26%, #ec4899 70%, #06b6d4);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero-copy p {
+        max-width: 650px;
+        margin-top: 20px;
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.75;
+      }
+
+      .cta-row {
+        margin-top: 28px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+
+      .cta-row .btn {
+        min-width: 200px;
+      }
+
+      .hero-stats {
+        margin-top: 36px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+      }
+
+      .mini-stat {
+        min-width: 140px;
+        padding: 0.75rem 0.9rem;
+        border-radius: 16px;
+        border: 1px solid rgba(148,163,184,0.15);
+        background: rgba(255,255,255,0.02);
+      }
+
+      .mini-stat strong {
+        display: block;
+        font-size: 1.3rem;
+        margin-bottom: 4px;
+      }
+
+      .mini-stat span {
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+
+      .hero-art {
+        position: relative;
+        min-height: 620px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+
+      .hud {
+        position: absolute;
+        inset: 0;
+      }
+
+      .hud-line {
+        position: absolute;
+        border: 1px solid rgba(6,182,212,0.24);
+        border-radius: 24px;
+      }
+
+      .hud-line.l1 { inset: 18% 12% 34% 20%; }
+      .hud-line.l2 { inset: 12% 20% 18% 12%; }
+      .hud-line.l3 { inset: 32% 18% 16% 18%; }
+
+      .character-card {
+        position: relative;
+        width: min(430px, 92%);
+        height: 520px;
+        border-radius: 32px;
+        background:
+          linear-gradient(180deg, rgba(17,17,31,0.15), rgba(17,17,31,0.7)),
+          linear-gradient(135deg, rgba(139,92,246,0.1), rgba(6,182,212,0.08));
+        border: 1px solid rgba(148,163,184,0.15);
+        box-shadow: 0 30px 70px rgba(12, 15, 25, 0.7);
+        overflow: hidden;
+      }
+
+      .character-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 25%, rgba(236,72,153,0.13), transparent 33%),
+                    radial-gradient(circle at 58% 50%, rgba(139,92,246,0.18), transparent 25%);
+      }
+
+      .character-figure {
+        position: absolute;
+        left: 50%;
+        bottom: 30px;
+        transform: translateX(-50%);
+        width: 300px;
+        height: 440px;
+      }
+
+      .head {
+        position: absolute;
+        left: 50%;
+        top: 56px;
+        width: 110px;
+        height: 120px;
+        transform: translateX(-50%);
+        border-radius: 50% 50% 47% 47%;
+        background: linear-gradient(180deg, #f6d7c4, #f2be9a);
+        box-shadow: inset 0 -18px 0 rgba(0,0,0,0.05);
+      }
+
+      .hair {
+        position: absolute;
+        left: 50%;
+        top: 30px;
+        transform: translateX(-50%);
+        width: 145px;
+        height: 95px;
+        background: linear-gradient(180deg, #16131c, #2b2141);
+        border-radius: 50% 50% 38% 38%;
+        box-shadow: 0 0 25px rgba(139,92,246,0.4);
+      }
+
+      .hair::before,
+      .hair::after {
+        content: "";
+        position: absolute;
+        width: 36px;
+        height: 60px;
+        background: linear-gradient(180deg, #1b1830, #140f1d);
+        border-radius: 50%;
+        top: 14px;
+      }
+
+      .hair::before { left: 10px; }
+      .hair::after { right: 10px; }
+
+      .eye {
+        position: absolute;
+        top: 94px;
+        width: 14px;
+        height: 20px;
+        border-radius: 50%;
+        background: #120d1d;
+        box-shadow: 0 0 10px rgba(6,182,212,0.5);
+      }
+
+      .eye.left { left: 122px; }
+      .eye.right { right: 122px; }
+
+      .body {
+        position: absolute;
+        left: 50%;
+        top: 165px;
+        transform: translateX(-50%);
+        width: 172px;
+        height: 170px;
+        background: linear-gradient(180deg, rgba(139,92,246,0.9), rgba(236,72,153,0.8));
+        border-radius: 34% 34% 18% 18%;
+        border: 1px solid rgba(255,255,255,0.2);
+        box-shadow: 0 0 40px rgba(139,92,246,0.36);
+      }
+
+      .arm {
+        position: absolute;
+        top: 190px;
+        width: 48px;
+        height: 150px;
+        background: linear-gradient(180deg, #e4b89c, #d79f7d);
+        border-radius: 30px;
+      }
+
+      .arm.left { left: 52px; transform: rotate(21deg); }
+      .arm.right { right: 52px; transform: rotate(-21deg); }
+
+      .blade {
+        position: absolute;
+        left: 50%;
+        top: 140px;
+        width: 190px;
+        height: 190px;
+        transform: translateX(-50%) rotate(15deg);
+        background: linear-gradient(135deg, rgba(6,182,212,0.18), rgba(139,92,246,0.2));
+        border: 1px solid rgba(6,182,212,0.28);
+        clip-path: polygon(50% 0%, 100% 42%, 71% 100%, 29% 100%, 0% 42%);
+        box-shadow: 0 0 30px rgba(6,182,212,0.2);
+      }
+
+      .floating-tag {
+        position: absolute;
+        padding: 0.7rem 0.9rem;
+        border-radius: 16px;
+        background: rgba(17,17,31,0.78);
+        border: 1px solid var(--line);
+        box-shadow: 0 14px 34px rgba(9,12,20,0.6);
+      }
+
+      .tag-a { top: 70px; left: 36px; }
+      .tag-b { right: 32px; bottom: 132px; }
+      .tag-c { left: 60px; bottom: 84px; }
+
+      .tag-a strong, .tag-b strong, .tag-c strong { display: block; font-size: 0.8rem; }
+      .tag-a span, .tag-b span, .tag-c span { color: var(--muted); font-size: 0.72rem; }
+
+      .main-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.7fr) minmax(285px, 0.8fr);
+        gap: 28px;
+        align-items: start;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+
+      .section-header h2 {
+        margin: 0;
+        font-size: clamp(1.6rem, 2vw, 2.2rem);
+      }
+
+      .section-header .muted {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .feed-shell {
+        display: grid;
+        gap: 22px;
+      }
+
+      .post-card {
+        padding: 22px;
+        border-radius: 24px;
+        background: rgba(16,16,31,0.76);
+        border: 1px solid var(--line);
+        box-shadow: 0 18px 35px rgba(10,10,18,0.3);
+      }
+
+      .post-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .post-user {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .user-meta strong {
+        display: block;
+        font-size: 0.98rem;
+      }
+
+      .user-meta span {
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+
+      .post-tools {
+        color: var(--muted);
+        font-size: 1.3rem;
+      }
+
+      .post-body {
+        margin-top: 16px;
+        color: rgba(248,250,252,0.92);
+        line-height: 1.7;
+      }
+
+      .post-media {
+        margin-top: 18px;
+        min-height: 240px;
+        border-radius: 18px;
+        background:
+          linear-gradient(120deg, rgba(139,92,246,0.3), rgba(236,72,153,0.2), rgba(6,182,212,0.25)),
+          url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+        border: 1px solid rgba(148,163,184,0.2);
+        overflow: hidden;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .tag {
+        display: inline-flex;
+        padding: 0.42rem 0.7rem;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.04);
+        color: var(--cyan);
+        border: 1px solid rgba(6,182,212,0.18);
+        font-size: 0.73rem;
+      }
+
+      .post-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(148,163,184,0.1);
+      }
+
+      .interaction-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .interaction {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        border: 1px solid rgba(148,163,184,0.12);
+        background: rgba(255,255,255,0.02);
+        border-radius: 999px;
+        padding: 0.55rem 0.8rem;
+        cursor: pointer;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .interaction:hover {
+        transform: translateY(-1px);
+        border-color: rgba(236,72,153,0.24);
+      }
+
+      .interaction.liked {
+        background: rgba(236,72,153,0.12);
+        border-color: rgba(236,72,153,0.35);
+        color: #ffd3eb;
+      }
+
+      .interaction.liked .like-icon::before { content: "❤️"; }
+
+      .like-icon::before { content: "🤍"; }
+
+      .sidebar {
+        display: grid;
+        gap: 22px;
+      }
+
+      .panel {
+        padding: 18px;
+        border-radius: 24px;
+        background: rgba(16,16,31,0.76);
+        border: 1px solid var(--line);
+      }
+
+      .panel h3 {
+        margin: 0 0 18px;
+        font-size: 1.05rem;
+      }
+
+      .profile-quick {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+      }
+
+      .profile-quick .avatar {
+        width: 72px;
+        height: 72px;
+      }
+
+      .level-progress {
+        width: 100%;
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.06);
+        overflow: hidden;
+        margin: 10px 0 8px;
+      }
+
+      .level-progress span {
+        display: block;
+        width: 82%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--purple), var(--magenta), var(--cyan));
+        border-radius: inherit;
+      }
+
+      .small-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .mini-profile {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 8px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(148,163,184,0.08);
+      }
+
+      .mini-profile .avatar {
+        width: 42px;
+        height: 42px;
+      }
+
+      .mini-profile strong {
+        display: block;
+        font-size: 0.88rem;
+      }
+
+      .mini-profile span {
+        color: var(--muted);
+        font-size: 0.72rem;
+      }
+
+      .mini-profile .compat {
+        color: var(--cyan);
+        margin-left: auto;
+        font-size: 0.72rem;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .anime-card,
+      .blog-card,
+      .community-card,
+      .rank-card,
+      .quiz-card,
+      .match-card {
+        border-radius: 24px;
+        background: rgba(16,16,31,0.76);
+        border: 1px solid var(--line);
+        overflow: hidden;
+      }
+
+      .anime-card {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .thumbnail {
+        position: relative;
+        min-height: 220px;
+        background-size: cover;
+        background-position: center;
+        border-bottom: 1px solid rgba(148,163,184,0.12);
+      }
+
+      .thumbnail::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 20%, rgba(8,8,18,0.8));
+      }
+
+      .score-tag {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        padding: 0.45rem 0.6rem;
+        border-radius: 999px;
+        background: rgba(8,8,18,0.8);
+        color: #facc15;
+        border: 1px solid rgba(250,204,21,0.25);
+        font-size: 0.76rem;
+        font-weight: 700;
+      }
+
+      .anime-body,
+      .community-body,
+      .blog-body,
+      .match-body,
+      .quiz-body,
+      .rank-body {
+        padding: 16px;
+      }
+
+      .anime-body h3,
+      .community-body h3,
+      .blog-body h3,
+      .match-body h3,
+      .quiz-body h3,
+      .rank-body h3 {
+        margin: 0 0 8px;
+        font-size: 1.06rem;
+      }
+
+      .genre-line {
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .meta-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+
+      .anime-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .anime-actions .btn {
+        flex: 1;
+        font-size: 0.74rem;
+        padding: 0.8rem 0.7rem;
+      }
+
+      .section-head-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .filter-chip {
+        border-radius: 999px;
+        border: 1px solid rgba(148,163,184,0.15);
+        background: rgba(255,255,255,0.02);
+        padding: 0.5rem 0.8rem;
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+
+      .filter-chip.active {
+        border-color: rgba(139,92,246,0.4);
+        background: rgba(139,92,246,0.12);
+        color: var(--text);
+      }
+
+      .search-wrap {
+        margin-top: 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(148,163,184,0.15);
+        border-radius: 16px;
+        padding: 0.9rem 1rem;
+      }
+
+      .search-wrap input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: var(--text);
+        outline: none;
+      }
+
+      .quiz-grid,
+      .match-grid,
+      .community-grid,
+      .blog-grid,
+      .rank-grid {
+        display: grid;
+        gap: 18px;
+      }
+
+      .quiz-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .match-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .community-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+      .blog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .rank-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+      .quiz-card,
+      .match-card,
+      .community-card,
+      .rank-card {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .quiz-visual,
+      .community-banner {
+        min-height: 160px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .quiz-visual {
+        background: linear-gradient(135deg, rgba(139,92,246,0.18), rgba(236,72,153,0.14), rgba(6,182,212,0.16));
+      }
+
+      .quiz-visual::before,
+      .community-banner::before {
+        content: "";
+        position: absolute;
+        inset: 10% 10% auto auto;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.25), transparent 62%);
+      }
+
+      .quiz-badge {
+        position: absolute;
+        left: 14px;
+        top: 14px;
+        padding: 0.45rem 0.7rem;
+        border-radius: 999px;
+        color: var(--text);
+        background: rgba(8,8,18,0.7);
+        border: 1px solid rgba(148,163,184,0.12);
+        font-size: 0.7rem;
+      }
+
+      .quiz-body .score {
+        color: var(--yellow);
+        font-weight: 800;
+      }
+
+      .match-card .match-banner {
+        min-height: 120px;
+        background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.12), rgba(6,182,212,0.15));
+        position: relative;
+        padding: 18px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+      }
+
+      .compat {
+        font-size: 1.2rem;
+        font-weight: 900;
+        color: var(--yellow);
+        text-shadow: 0 0 14px rgba(251, 191, 36, 0.5);
+      }
+
+      .match-actions {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .match-actions .btn {
+        padding: 0.7rem 0.6rem;
+        font-size: 0.72rem;
+      }
+
+      .community-banner {
+        min-height: 120px;
+        background: linear-gradient(135deg, rgba(139,92,246,0.17), rgba(6,182,212,0.13), rgba(236,72,153,0.12));
+      }
+
+      .community-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 0.76rem;
+      }
+
+      .stats-inline {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .stat-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0.4rem 0.72rem;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--line);
+        font-size: 0.72rem;
+        color: var(--muted);
+      }
+
+      .blog-card .cover {
+        min-height: 190px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .label {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        padding: 0.42rem 0.7rem;
+        border-radius: 999px;
+        background: rgba(8,8,18,0.7);
+        border: 1px solid rgba(148,163,184,0.14);
+        font-size: 0.68rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .rank-card {
+        padding: 16px;
+      }
+
+      .rank-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .rank-number {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--purple), var(--magenta));
+        font-weight: 800;
+      }
+
+      .rank-user {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .rank-user .avatar {
+        width: 48px;
+        height: 48px;
+      }
+
+      .xp-line {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+
+      .bare-progress {
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.06);
+        overflow: hidden;
+        margin-top: 8px;
+      }
+
+      .bare-progress span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--cyan), var(--purple));
+      }
+
+      .notifications {
+        display: grid;
+        gap: 12px;
+      }
+
+      .notify {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 10px 8px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(148,163,184,0.08);
+      }
+
+      .notify-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.15));
+        border: 1px solid rgba(148,163,184,0.14);
+      }
+
+      .notify p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+        font-size: 0.8rem;
+      }
+
+      .cta-panel {
+        padding: 18px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, rgba(139,92,246,0.18), rgba(236,72,153,0.12), rgba(6,182,212,0.16));
+        border: 1px solid rgba(148,163,184,0.16);
+      }
+
+      .signup-box {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .signup-box input,
+      .signup-box textarea,
+      .signup-box select {
+        width: 100%;
+        background: rgba(8,8,18,0.45);
+        border: 1px solid var(--line);
+        color: var(--text);
+        border-radius: 14px;
+        padding: 0.9rem 1rem;
+        outline: none;
+      }
+
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip {
+        border-radius: 999px;
+        padding: 0.45rem 0.75rem;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(148,163,184,0.14);
+        color: var(--muted);
+        font-size: 0.72rem;
+      }
+
+      .auth-wrap {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 28px;
+      }
+
+      .auth-card {
+        padding: 24px;
+        border-radius: 28px;
+        background: rgba(16,16,31,0.76);
+        border: 1px solid var(--line);
+      }
+
+      .auth-card h3 {
+        margin-top: 0;
+        font-size: 1.75rem;
+      }
+
+      .auth-card form {
+        display: grid;
+        gap: 14px;
+      }
+
+      .mini-btn {
+        width: auto;
+        padding: 0.8rem 1rem;
+      }
+
+      .checkbox {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .questionnaire {
+        display: grid;
+        gap: 18px;
+      }
+
+      .question {
+        padding: 18px;
+        border-radius: 20px;
+        background: rgba(16,16,31,0.76);
+        border: 1px solid var(--line);
+      }
+
+      .question h4 {
+        margin: 0 0 14px;
+        font-size: 1.05rem;
+      }
+
+      .options {
+        display: grid;
+        gap: 10px;
+      }
+
+      .option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(148,163,184,0.1);
+        border-radius: 14px;
+        padding: 0.8rem 0.9rem;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      .option:hover {
+        border-color: rgba(139,92,246,0.25);
+      }
+
+      .option input {
+        accent-color: var(--purple);
+      }
+
+      .result-box {
+        padding: 22px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, rgba(139,92,246,0.14), rgba(236,72,153,0.12), rgba(6,182,212,0.12));
+        border: 1px solid rgba(148,163,184,0.12);
+      }
+
+      .result-box h3 { margin: 0 0 6px; }
+      .result-box p { color: var(--muted); line-height: 1.7; }
+
+      .percentage-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .percentage-item {
+        padding: 10px 12px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(148,163,184,0.12);
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        place-items: center;
+        background: rgba(5, 5, 12, 0.72);
+        backdrop-filter: blur(12px);
+        z-index: 100;
+      }
+
+      .modal.show { display: grid; }
+
+      .modal-box {
+        width: min(760px, calc(100% - 28px));
+        padding: 22px;
+        border-radius: 28px;
+        background: rgba(12,12,22,0.96);
+        border: 1px solid rgba(148,163,184,0.12);
+        box-shadow: 0 28px 80px rgba(0,0,0,0.55);
+      }
+
+      .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .close-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(148,163,184,0.12);
+        color: var(--text);
+        cursor: pointer;
+      }
+
+      .post-types {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .post-type {
+        padding: 0.55rem 0.8rem;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(148,163,184,0.12);
+        color: var(--muted);
+        font-size: 0.72rem;
+      }
+
+      .composer {
+        display: grid;
+        gap: 14px;
+      }
+
+      .composer textarea {
+        display: block;
+        width: 100%;
+        min-height: 160px;
+        resize: vertical;
+        border-radius: 20px;
+        border: 1px solid rgba(148,163,184,0.18);
+        background: rgba(255,255,255,0.02);
+        color: var(--text);
+        padding: 1rem 1.1rem;
+        outline: none;
+      }
+
+      .composer-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .composer-row select,
+      .composer-row input {
+        width: 100%;
+        border-radius: 14px;
+        border: 1px solid rgba(148,163,184,0.18);
+        background: rgba(255,255,255,0.02);
+        color: var(--text);
+        padding: 0.85rem 1rem;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 8px;
+      }
+
+      .floating-cta {
+        position: fixed;
+        right: 22px;
+        bottom: 86px;
+        z-index: 30;
+      }
+
+      .floating-cta .btn {
+        padding: 1rem 1.2rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--purple), var(--magenta));
+        box-shadow: 0 20px 40px rgba(139,92,246,0.35);
+      }
+
+      .bottom-nav {
+        display: none;
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        z-index: 40;
+        padding: 10px 12px;
+        border-radius: 18px;
+        background: rgba(16,16,31,0.82);
+        border: 1px solid rgba(148,163,184,0.18);
+        backdrop-filter: blur(16px);
+      }
+
+      .bottom-nav .items {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .bottom-nav .item {
+        display: grid;
+        place-items: center;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 0.7rem;
+        min-height: 52px;
+      }
+
+      .bottom-nav .item.active {
+        color: var(--text);
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(148,163,184,0.1);
+        border-radius: 16px;
+      }
+
+      @media (max-width: 1100px) {
+        .hero-grid,
+        .auth-wrap,
+        .main-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .community-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 880px) {
+        .nav-links {
+          display: none;
+        }
+
+        .mobile-toggle {
+          display: inline-flex;
+        }
+
+        .card-grid,
+        .quiz-grid,
+        .match-grid,
+        .blog-grid,
+        .rank-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .filter-row {
+          overflow-x: auto;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .hero-copy {
+          padding: 28px 20px 18px;
+        }
+
+        .hero-stats {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .card-grid,
+        .quiz-grid,
+        .match-grid,
+        .blog-grid,
+        .rank-grid,
+        .community-grid,
+        .composer-row,
+        .percentage-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-actions .icon-btn:not(.mobile-toggle) {
+          display: none;
+        }
+
+        .floating-cta {
+          right: 12px;
+          bottom: 76px;
+        }
+
+        .bottom-nav { display: block; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <div class="logo" aria-label="Nexus Otaku logo">
+          <span class="logo-mark" aria-hidden="true"></span>
+          <span>NEXUS OTAKU</span>
+        </div>
+
+        <nav class="nav-links" aria-label="Menu principal">
+          <a href="#top">Início</a>
+          <a href="#explorar">Explorar</a>
+          <a href="#animes">Animes</a>
+          <a href="#games">Games</a>
+          <a href="#comunidade">Comunidade</a>
+          <a href="#blog">Blog</a>
+          <a href="#quizzes">Quizzes</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="icon-btn" aria-label="Pesquisar">⌕</button>
+          <button class="icon-btn" aria-label="Notificações">
+            🔔
+            <span class="dot" aria-hidden="true"></span>
+          </button>
+          <button class="icon-btn" aria-label="Mensagens">💬</button>
+          <div class="user-chip">
+            <div class="avatar" aria-label="Avatar do usuário"></div>
+            <span>Samuel</span>
+          </div>
+          <button class="icon-btn mobile-toggle" aria-label="Menu">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero section">
+        <div class="container hero-shell">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <div class="eyebrow">Microcomunidade otaku</div>
+              <h1>
+                Seu universo. <span class="highlight">Seus animes.</span><br />
+                Sua comunidade.
+              </h1>
+              <p>
+                Conecte-se com pessoas que compartilham os mesmos animes,
+                personagens, jogos e obsessões que você.
+              </p>
+              <div class="cta-row">
+                <button class="btn btn-primary">ENTRAR NA COMUNIDADE</button>
+                <button class="btn btn-secondary">EXPLORAR ANIMES</button>
+              </div>
+              <div class="hero-stats" aria-label="Estatísticas da comunidade">
+                <div class="mini-stat">
+                  <strong>128K</strong>
+                  <span>Otakus ativos</span>
+                </div>
+                <div class="mini-stat">
+                  <strong>4.8K</strong>
+                  <span>Posts hoje</span>
+                </div>
+                <div class="mini-stat">
+                  <strong>91%</strong>
+                  <span>Compatibilidade</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-art" aria-label="Arte decorativa de personagem">
+              <div class="hud" aria-hidden="true">
+                <div class="hud-line l1"></div>
+                <div class="hud-line l2"></div>
+                <div class="hud-line l3"></div>
+              </div>
+
+              <div class="character-card">
+                <div class="character-figure" aria-hidden="true">
+                  <div class="blade"></div>
+                  <div class="hair"></div>
+                  <div class="head">
+                    <span class="eye left"></span>
+                    <span class="eye right"></span>
+                  </div>
+                  <div class="arm left"></div>
+                  <div class="arm right"></div>
+                  <div class="body"></div>
+                </div>
+
+                <div class="floating-tag tag-a">
+                  <strong>95%</strong>
+                  <span>compatibilidade</span>
+                </div>
+                <div class="floating-tag tag-b">
+                  <strong>8/10</strong>
+                  <span>quiz streak</span>
+                </div>
+                <div class="floating-tag tag-c">
+                  <strong>2.4K</strong>
+                  <span>seguidores</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="explorar">
+        <div class="container">
+          <div class="section-header">
+            <h2>🔥 FEED OTAKU</h2>
+            <div class="pill">Comunidade ativa • 2.3K posts hoje</div>
+          </div>
+
+          <div class="main-grid">
+            <div class="feed-shell">
+              <article class="post-card">
+                <div class="post-head">
+                  <div class="post-user">
+                    <div class="avatar med" aria-label="Avatar de Reika"></div>
+                    <div class="user-meta">
+                      <strong>Reika Sato</strong>
+                      <span>@reika_neo • 3 min atrás</span>
+                    </div>
+                  </div>
+                  <div class="post-tools">⋯</div>
+                </div>
+
+                <div class="post-body">
+                  Terminei a última temporada e preciso conversar com alguém sobre esse final 😭
+                  <br />
+                  A cena final foi tão absurda quanto perfeita. Ainda tô processando.
+                </div>
+
+                <div class="post-media" aria-label="Imagem ilustrativa de anime"></div>
+
+                <div class="tags">
+                  <span class="tag">#Anime</span>
+                  <span class="tag">#Final</span>
+                  <span class="tag">#Spoiler</span>
+                </div>
+
+                <div class="post-actions">
+                  <div class="interaction-row">
+                    <button class="interaction liked"><span class="like-icon"></span> 1.2K</button>
+                    <button class="interaction"><span>💬</span> 183</button>
+                    <button class="interaction"><span>↗</span> Compartilhar</button>
+                  </div>
+                  <button class="interaction"><span>🔖</span> Salvar</button>
+                </div>
+              </article>
+
+              <article class="post-card">
+                <div class="post-head">
+                  <div class="post-user">
+                    <div class="avatar med" aria-label="Avatar de Lucas"></div>
+                    <div class="user-meta">
+                      <strong>Lucas Yamada</strong>
+                      <span>@lucas_uchiha • 16 min atrás</span>
+                    </div>
+                  </div>
+                  <div class="post-tools">⋯</div>
+                </div>
+
+                <div class="post-body">
+                  Minha lista de "quero assistir" ficou absurda, mas eu juro que cada uma dessas séries merece uma semana inteira de maratona.
+                </div>
+
+                <div class="tags">
+                  <span class="tag">#Lista</span>
+                  <span class="tag">#Shonen</span>
+                  <span class="tag">#Recomendação</span>
+                </div>
+
+                <div class="post-actions">
+                  <div class="interaction-row">
+                    <button class="interaction"><span class="like-icon"></span> 864</button>
+                    <button class="interaction"><span>💬</span> 61</button>
+                    <button class="interaction"><span>↗</span> Compartilhar</button>
+                  </div>
+                  <button class="interaction"><span>🔖</span> Salvar</button>
+                </div>
+              </article>
+
+              <article class="post-card">
+                <div class="post-head">
+                  <div class="post-user">
+                    <div class="avatar med" aria-label="Avatar de Ana"></div>
+                    <div class="user-meta">
+                      <strong>Ana Kuroda</strong>
+                      <span>@ana_quest • 1h atrás</span>
+                    </div>
+                  </div>
+                  <div class="post-tools">⋯</div>
+                </div>
+
+                <div class="post-body">
+                  Quem aqui acha que o melhor personagem de RPG não é o mais forte, mas o mais memorável? Estou com uma teoria sobre o impacto dos protagonistas quebrados.
+                </div>
+
+                <div class="tags">
+                  <span class="tag">#RPG</span>
+                  <span class="tag">#Psicológico</span>
+                  <span class="tag">#Discussão</span>
+                </div>
+
+                <div class="post-actions">
+                  <div class="interaction-row">
+                    <button class="interaction"><span class="like-icon"></span> 2.1K</button>
+                    <button class="interaction"><span>💬</span> 218</button>
+                    <button class="interaction"><span>↗</span> Compartilhar</button>
+                  </div>
+                  <button class="interaction"><span>🔖</span> Salvar</button>
+                </div>
+              </article>
+            </div>
+
+            <aside class="sidebar">
+              <div class="panel">
+                <div class="profile-quick">
+                  <div class="avatar large" aria-label="Avatar de Samuel"></div>
+                  <div>
+                    <strong>Samuel</strong><br />
+                    <span style="color: var(--muted); font-size: 0.8rem;">@samuel_otaku</span>
+                  </div>
+                  <div class="pill">🏆 Otaku veterano</div>
+                  <div class="level-progress"><span></span></div>
+                  <div style="color: var(--muted); font-size: 0.78rem;">1.420 XP / 1.700 XP</div>
+                </div>
+              </div>
+
+              <div class="panel">
+                <h3>🔥 Match otaku</h3>
+                <div class="small-list">
+                  <div class="mini-profile">
+                    <div class="avatar" aria-label="Avatar de Lucas"></div>
+                    <div>
+                      <strong>Lucas</strong>
+                      <span>@lucas_uchiha</span>
+                    </div>
+                    <span class="compat">94%</span>
+                  </div>
+                  <div class="mini-profile">
+                    <div class="avatar" aria-label="Avatar de Ana"></div>
+                    <div>
+                      <strong>Ana</strong>
+                      <span>@ana_quest</span>
+                    </div>
+                    <span class="compat">91%</span>
+                  </div>
+                  <div class="mini-profile">
+                    <div class="avatar" aria-label="Avatar de Yuri"></div>
+                    <div>
+                      <strong>Yuri</strong>
+                      <span>@yuri_nova</span>
+                    </div>
+                    <span class="compat">88%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel">
+                <h3>🔔 Notificações</h3>
+                <div class="notifications">
+                  <div class="notify">
+                    <div class="notify-icon">❤️</div>
+                    <p>Samuel curtiu seu post.</p>
+                  </div>
+                  <div class="notify">
+                    <div class="notify-icon">💬</div>
+                    <p>Lucas comentou no seu post.</p>
+                  </div>
+                  <div class="notify">
+                    <div class="notify-icon">🏆</div>
+                    <p>Você ganhou uma nova badge.</p>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="animes">
+        <div class="container">
+          <div class="section-head-row">
+            <div class="section-header" style="margin: 0;">
+              <h2>EXPLORAR ANIMES</h2>
+            </div>
+            <div class="filters" aria-label="Filtros de animes">
+              <span class="filter-chip active">Todos</span>
+              <span class="filter-chip">Ação</span>
+              <span class="filter-chip">Shonen</span>
+              <span class="filter-chip">Fantasia</span>
+              <span class="filter-chip">Psicológico</span>
+            </div>
+          </div>
+
+          <div class="search-wrap">
+            <span aria-hidden="true">🔍</span>
+            <input type="text" value="Qual anime você está procurando?" aria-label="Pesquisa de anime" />
+          </div>
+
+          <div class="card-grid" style="margin-top: 20px;">
+            <article class="anime-card">
+              <div class="thumbnail" style="background-image: url('https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=900&q=80');">
+                <span class="score-tag">⭐ 9.2</span>
+              </div>
+              <div class="anime-body">
+                <h3>Tokyo Requiem</h3>
+                <div class="genre-line">Ação • Shonen • Fantasia</div>
+                <div class="meta-line">
+                  <span>24 eps</span>
+                  <span>Completo</span>
+                  <span>Popular</span>
+                </div>
+                <div class="anime-actions">
+                  <button class="btn btn-primary">VER DETALHES</button>
+                  <button class="btn btn-secondary">+ MINHA LISTA</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="anime-card">
+              <div class="thumbnail" style="background-image: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80');">
+                <span class="score-tag">⭐ 9.4</span>
+              </div>
+              <div class="anime-body">
+                <h3>Silent Cipher</h3>
+                <div class="genre-line">Psicológico • Mistério • Thriller</div>
+                <div class="meta-line">
+                  <span>12 eps</span>
+                  <span>Em andamento</span>
+                  <span>Alta demanda</span>
+                </div>
+                <div class="anime-actions">
+                  <button class="btn btn-primary">VER DETALHES</button>
+                  <button class="btn btn-secondary">+ MINHA LISTA</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="anime-card">
+              <div class="thumbnail" style="background-image: url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80');">
+                <span class="score-tag">⭐ 8.9</span>
+              </div>
+              <div class="anime-body">
+                <h3>Neon Drift</h3>
+                <div class="genre-line">Cyberpunk • Aventura • Sci-fi</div>
+                <div class="meta-line">
+                  <span>13 eps</span>
+                  <span>Completo</span>
+                  <span>Trending</span>
+                </div>
+                <div class="anime-actions">
+                  <button class="btn btn-primary">VER DETALHES</button>
+                  <button class="btn btn-secondary">+ MINHA LISTA</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="games">
+        <div class="container">
+          <div class="section-header">
+            <h2>🎮 GAMER ZONE</h2>
+            <div class="pill">Meus jogos • Elden Ring, Valorant, Minecraft</div>
+          </div>
+
+          <div class="card-grid">
+            <div class="panel">
+              <h3>RPG</h3>
+              <div class="chip-row">
+                <span class="chip">Elden Ring</span>
+                <span class="chip">Persona 5</span>
+                <span class="chip">Cyberpunk 2077</span>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>FPS</h3>
+              <div class="chip-row">
+                <span class="chip">Valorant</span>
+                <span class="chip">Overwatch</span>
+                <span class="chip">Apex</span>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Soulslike</h3>
+              <div class="chip-row">
+                <span class="chip">Dark Souls</span>
+                <span class="chip">Sekiro</span>
+                <span class="chip">Lords of the Fallen</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="comunidade">
+        <div class="container">
+          <div class="section-header">
+            <h2>COMUNIDADES</h2>
+            <div class="pill">Aventure-se em nichos que combinam com você</div>
+          </div>
+
+          <div class="community-grid">
+            <article class="community-card">
+              <div class="community-banner" style="background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.15));"></div>
+              <div class="community-body">
+                <h3>⚔️ SHONEN</h3>
+                <div class="community-info">
+                  <span>18.2K membros</span>
+                  <span>340 posts</span>
+                </div>
+                <div class="anime-actions">
+                  <button class="btn btn-primary">ENTRAR</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="community-card">
+              <div class="community-banner" style="background: linear-gradient(135deg, rgba(6,182,212,0.2), rgba(139,92,246,0.15));"></div>
+              <div class="community-body">
+                <h3>🎮 GAMERS</h3>
+                <div class="community-info">
+                  <span>12.5K membros</span>
+                  <span>252 posts</span>
+                </div>
+                <div class="anime-actions">
+                  <button class="btn btn-primary">ENTRAR</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="community-card">
+              <div class="community-banner" style="background: linear-gradient(135deg, rgba(236,72,153,0.2), rgba(6,182,212,0.14));"></div>
+              <div class="community-body">
+                <h3>🧙 ISEKAI</h3>
+                <div class="community-info">
+                  <span>9.1K membros</span>
+                  <span>180 posts</span>
+                </div>
+                <div class="anime-actions">
+                  <button class="btn btn-primary">ENTRAR</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="community-card">
+              <div class="community-banner" style="background: linear-gradient(135deg, rgba(52,211,153,0.2), rgba(6,182,212,0.12));"></div>
+              <div class="community-body">
+                <h3>👻 TERROR</h3>
+                <div class="community-info">
+                  <span>7.8K membros</span>
+                  <span>140 posts</span>
+                </div>
+                <div class="anime-actions">
+                  <button class="btn btn-primary">ENTRAR</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="community-card">
+              <div class="community-banner" style="background: linear-gradient(135deg, rgba(251,191,36,0.18), rgba(236,72,153,0.14));"></div>
+              <div class="community-body">
+                <h3>🧠 PSICOLÓGICO</h3>
+                <div class="community-info">
+                  <span>11.9K membros</span>
+                  <span>292 posts</span>
+                </div>
+                <div class="anime-actions">
+                  <button class="btn btn-primary">ENTRAR</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="blog">
+        <div class="container">
+          <div class="section-header">
+            <h2>NEXUS BLOG</h2>
+            <div class="pill">Notícias, análises, reviews e curiosidades</div>
+          </div>
+
+          <div class="blog-grid">
+            <article class="blog-card">
+              <div class="cover" style="background-image: url('https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=1200&q=80'); position: relative;">
+                <span class="label">Análise</span>
+              </div>
+              <div class="blog-body">
+                <h3>Por que os protagonistas quebrados psicologicamente conquistaram os fãs?</h3>
+                <div class="meta-line">
+                  <span>8 min de leitura</span>
+                  <span>•</span>
+                  <span>18 comentários</span>
+                </div>
+                <div class="anime-actions">
+                  <button class="btn btn-primary">LER ARTIGO</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="blog-card">
+              <div class="cover" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80'); position: relative;">
+                <span class="label">Review</span>
+              </div>
+              <div class="blog-body">
+                <h3>As 7 séries que redefiniram o jeito de contar histórias no gênero</h3>
+                <div class="meta-line">
+                  <span>6 min de leitura</span>
+                  <span>•</span>
+                  <span>9 comentários</span>
+                </div>
+                <div class="anime-actions">
+                  <button class="btn btn-primary">LER ARTIGO</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="blog-card">
+              <div class="cover" style="background-image: url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80'); position: relative;">
+                <span class="label">Curiosidade</span>
+              </div>
+              <div class="blog-body">
+                <h3>Como as trilhas sonoras transformam a experiência de um anime</h3>
+                <div class="meta-line">
+                  <span>5 min de leitura</span>
+                  <span>•</span>
+                  <span>27 comentários</span>
+                </div>
+                <div class="anime-actions">
+                  <button class="btn btn-primary">LER ARTIGO</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="quizzes">
+        <div class="container">
+          <div class="section-header">
+            <h2>🧠 DESAFIO OTAKU</h2>
+            <div class="pill">Teste seu nível e suba no ranking</div>
+          </div>
+
+          <div class="quiz-grid">
+            <article class="quiz-card">
+              <div class="quiz-visual">
+                <span class="quiz-badge">Anime</span>
+              </div>
+              <div class="quiz-body">
+                <h3>Você reconhece esse anime?</h3>
+                <div class="score">8/10</div>
+                <div class="meta-line">
+                  <span>🔥 Você conhece bastante de anime!</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="quiz-card">
+              <div class="quiz-visual" style="background: linear-gradient(135deg, rgba(236,72,153,0.19), rgba(139,92,246,0.14), rgba(6,182,212,0.14));">
+                <span class="quiz-badge">Personagem</span>
+              </div>
+              <div class="quiz-body">
+                <h3>Qual personagem combina com você?</h3>
+                <div class="score">7/10</div>
+                <div class="meta-line">
+                  <span>⚡ Perfil: estrategista</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="quiz-card">
+              <div class="quiz-visual" style="background: linear-gradient(135deg, rgba(6,182,212,0.19), rgba(52,211,153,0.14), rgba(139,92,246,0.16));">
+                <span class="quiz-badge">One Piece</span>
+              </div>
+              <div class="quiz-body">
+                <h3>Quanto você sabe sobre One Piece?</h3>
+                <div class="score">9/10</div>
+                <div class="meta-line">
+                  <span>🏆 Mestre otaku</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="ranking">
+        <div class="container">
+          <div class="section-header">
+            <h2>🏆 HALL DOS OTAKUS</h2>
+            <div class="pill">Ranking global</div>
+          </div>
+
+          <div class="rank-grid">
+            <article class="rank-card">
+              <div class="rank-header">
+                <span class="rank-number">1</span>
+                <span class="pill">Mais populares</span>
+              </div>
+              <div class="rank-user">
+                <div class="avatar" aria-label="Avatar de Lucas"></div>
+                <div>
+                  <strong>Lucas</strong>
+                  <div style="color: var(--muted); font-size: 0.75rem;">Nível 34 • 9.850 XP</div>
+                </div>
+              </div>
+              <div class="xp-line">Badge: Senpai</div>
+              <div class="bare-progress"><span style="width: 96%;"></span></div>
+            </article>
+
+            <article class="rank-card">
+              <div class="rank-header">
+                <span class="rank-number">2</span>
+                <span class="pill">Mais ativos</span>
+              </div>
+              <div class="rank-user">
+                <div class="avatar" aria-label="Avatar de Samuel"></div>
+                <div>
+                  <strong>Samuel</strong>
+                  <div style="color: var(--muted); font-size: 0.75rem;">Nível 27 • 9.420 XP</div>
+                </div>
+              </div>
+              <div class="xp-line">Badge: Top comunidade</div>
+              <div class="bare-progress"><span style="width: 91%;"></span></div>
+            </article>
+
+            <article class="rank-card">
+              <div class="rank-header">
+                <span class="rank-number">3</span>
+                <span class="pill">Melhores reviewers</span>
+              </div>
+              <div class="rank-user">
+                <div class="avatar" aria-label="Avatar de Ana"></div>
+                <div>
+                  <strong>Ana</strong>
+                  <div style="color: var(--muted); font-size: 0.75rem;">Nível 29 • 9.110 XP</div>
+                </div>
+              </div>
+              <div class="xp-line">Badge: Criadora</div>
+              <div class="bare-progress"><span style="width: 87%;"></span></div>
+            </article>
+
+            <article class="rank-card">
+              <div class="rank-header">
+                <span class="rank-number">4</span>
+                <span class="pill">Mais curtidos</span>
+              </div>
+              <div class="rank-user">
+                <div class="avatar" aria-label="Avatar de Yuri"></div>
+                <div>
+                  <strong>Yuri</strong>
+                  <div style="color: var(--muted); font-size: 0.75rem;">Nível 26 • 8.750 XP</div>
+                </div>
+              </div>
+              <div class="xp-line">Badge: Elite</div>
+              <div class="bare-progress"><span style="width: 82%;"></span></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="match">
+        <div class="container">
+          <div class="section-header">
+            <h2>OTAKU MATCH</h2>
+            <div class="pill">Quem combina com o seu perfil</div>
+          </div>
+
+          <div class="match-grid">
+            <article class="match-card">
+              <div class="match-banner">
+                <div class="compat">🔥 94%</div>
+              </div>
+              <div class="match-body">
+                <h3>Lucas</h3>
+                <div style="color: var(--muted); font-size: 0.78rem;">@lucas_uchiha</div>
+                <div class="tags" style="margin-top: 12px;">
+                  <span class="tag">Jujutsu</span>
+                  <span class="tag">One Piece</span>
+                  <span class="tag">RPG</span>
+                </div>
+                <div class="match-actions">
+                  <button class="btn btn-primary">SEGUIR</button>
+                  <button class="btn btn-secondary">VER PERFIL</button>
+                  <button class="btn btn-secondary">CONVERSAR</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="match-card">
+              <div class="match-banner" style="background: linear-gradient(135deg, rgba(6,182,212,0.2), rgba(139,92,246,0.15), rgba(236,72,153,0.13));">
+                <div class="compat">🔥 91%</div>
+              </div>
+              <div class="match-body">
+                <h3>Ana</h3>
+                <div style="color: var(--muted); font-size: 0.78rem;">@ana_quest</div>
+                <div class="tags" style="margin-top: 12px;">
+                  <span class="tag">Mind game</span>
+                  <span class="tag">Soulslike</span>
+                  <span class="tag">Cyberpunk</span>
+                </div>
+                <div class="match-actions">
+                  <button class="btn btn-primary">SEGUIR</button>
+                  <button class="btn btn-secondary">VER PERFIL</button>
+                  <button class="btn btn-secondary">CONVERSAR</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="match-card">
+              <div class="match-banner" style="background: linear-gradient(135deg, rgba(236,72,153,0.22), rgba(6,182,212,0.15), rgba(139,92,246,0.12));">
+                <div class="compat">🔥 88%</div>
+              </div>
+              <div class="match-body">
+                <h3>Yuri</h3>
+                <div style="color: var(--muted); font-size: 0.78rem;">@yuri_nova</div>
+                <div class="tags" style="margin-top: 12px;">
+                  <span class="tag">Romance</span>
+                  <span class="tag">Isekai</span>
+                  <span class="tag">Indie</span>
+                </div>
+                <div class="match-actions">
+                  <button class="btn btn-primary">SEGUIR</button>
+                  <button class="btn btn-secondary">VER PERFIL</button>
+                  <button class="btn btn-secondary">CONVERSAR</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container auth-wrap">
+          <div class="auth-card">
+            <div class="eyebrow">Faça parte do universo</div>
+            <h3>“NÃO É APENAS UM SITE. É O SEU UNIVERSO.”</h3>
+            <form>
+              <input type="email" placeholder="Email" aria-label="Email" />
+              <input type="password" placeholder="Senha" aria-label="Senha" />
+              <button class="btn btn-primary mini-btn" type="button">ENTRAR</button>
+              <a href="#" style="color: var(--cyan); font-size: 0.82rem;">Esqueci minha senha</a>
+              <button class="btn btn-secondary mini-btn" type="button">Entrar com Google</button>
+            </form>
+          </div>
+
+          <div class="auth-card">
+            <div class="eyebrow">Cadastro</div>
+            <h3>ENTRE PARA O NEXUS</h3>
+            <form>
+              <input type="text" placeholder="Nome" aria-label="Nome" />
+              <input type="text" placeholder="Username" aria-label="Username" />
+              <input type="email" placeholder="Email" aria-label="Email de cadastro" />
+              <input type="password" placeholder="Senha" aria-label="Senha de cadastro" />
+              <input type="password" placeholder="Confirmar senha" aria-label="Confirmar senha" />
+              <label class="checkbox">
+                <input type="checkbox" />
+                <span>Aceito os termos e condições</span>
+              </label>
+              <button class="btn btn-primary mini-btn" type="button">CRIAR CONTA</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Vamos descobrir que tipo de otaku você é?</h2>
+          </div>
+
+          <div class="questionnaire">
+            <div class="question">
+              <h4>Pergunta 1 — Qual gênero você mais gosta?</h4>
+              <div class="options">
+                <label class="option"><input type="radio" name="q1" /> ⚔️ Shonen</label>
+                <label class="option"><input type="radio" name="q1" /> 💕 Romance</label>
+                <label class="option"><input type="radio" name="q1" /> 👻 Terror</label>
+                <label class="option"><input type="radio" name="q1" /> 🧠 Psicológico</label>
+              </div>
+            </div>
+
+            <div class="question">
+              <h4>Pergunta 2 — Qual protagonista você prefere?</h4>
+              <div class="options">
+                <label class="option"><input type="radio" name="q2" /> O estrategista</label>
+                <label class="option"><input type="radio" name="q2" /> O overpower</label>
+                <label class="option"><input type="radio" name="q2" /> O engraçado</label>
+                <label class="option"><input type="radio" name="q2" /> O traumatizado</label>
+              </div>
+            </div>
+
+            <div class="question">
+              <h4>Pergunta 3 — O que você faz quando encontra um anime novo?</h4>
+              <div class="options">
+                <label class="option"><input type="radio" name="q3" /> Assisto imediatamente</label>
+                <label class="option"><input type="radio" name="q3" /> Coloco na lista</label>
+                <label class="option"><input type="radio" name="q3" /> Vejo reviews</label>
+                <label class="option"><input type="radio" name="q3" /> Leio o mangá primeiro</label>
+              </div>
+            </div>
+
+            <div class="result-box">
+              <h3>SEU PERFIL OTAKU</h3>
+              <h3 style="font-size: 1.6rem;">“Você é um OTaku Estrategista ⚡”</h3>
+              <p>
+                Você gosta de personagens inteligentes, histórias complexas e batalhas
+                onde o cérebro importa tanto quanto a força.
+              </p>
+              <div class="percentage-grid">
+                <div class="percentage-item"><strong>Shonen 82%</strong></div>
+                <div class="percentage-item"><strong>Psicológico 76%</strong></div>
+                <div class="percentage-item"><strong>RPG 91%</strong></div>
+                <div class="percentage-item"><strong>Competitivo 64%</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="floating-cta">
+      <button class="btn btn-primary" id="openPostModal">+ CRIAR POST</button>
+    </div>
+
+    <nav class="bottom-nav" aria-label="Navegação móvel">
+      <div class="items">
+        <div class="item active">🏠<span>Início</span></div>
+        <div class="item">🔍<span>Explorar</span></div>
+        <div class="item">➕<span>Postar</span></div>
+        <div class="item">❤️<span>Comunidade</span></div>
+        <div class="item">👤<span>Perfil</span></div>
+      </div>
+    </nav>
+
+    <div class="modal" id="postModal" aria-hidden="true">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3 style="margin: 0;">Criar Post</h3>
+          <button class="close-btn" id="closePostModal" aria-label="Fechar modal">✕</button>
+        </div>
+
+        <div class="post-types">
+          <span class="post-type">Texto</span>
+          <span class="post-type">Imagem</span>
+          <span class="post-type">GIF</span>
+          <span class="post-type">Enquete</span>
+          <span class="post-type">Review</span>
+          <span class="post-type">Pergunta</span>
+        </div>
+
+        <div class="composer">
+          <textarea aria-label="Conteúdo do post" placeholder="O que está passando pela sua cabeça, otaku?"></textarea>
+          <div class="composer-row">
+            <select aria-label="Selecione a categoria">
+              <option>Anime</option>
+              <option>Game</option>
+              <option>Mangá</option>
+              <option>Geral</option>
+            </select>
+            <input type="text" placeholder="#hashtags" aria-label="Hashtags" />
+          </div>
+          <div class="chip-row">
+            <span class="chip">#Anime</span>
+            <span class="chip">#Spoiler</span>
+            <span class="chip">#Final</span>
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-secondary" type="button">Salvar rascunho</button>
+            <button class="btn btn-primary" type="button">PUBLICAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const modal = document.getElementById('postModal');
+      const openBtn = document.getElementById('openPostModal');
+      const closeBtn = document.getElementById('closePostModal');
+
+      openBtn.addEventListener('click', () => {
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden', 'false');
+      });
+
+      closeBtn.addEventListener('click', () => {
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden', 'true');
+      });
+
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          modal.classList.remove('show');
+          modal.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      document.querySelectorAll('.interaction').forEach((button) => {
+        button.addEventListener('click', () => {
+          if (button.classList.contains('liked')) {
+            button.classList.remove('liked');
+            return;
+          }
+          if (button.querySelector('.like-icon')) {
+            button.classList.add('liked');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

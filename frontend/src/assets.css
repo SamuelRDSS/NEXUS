@@ -13,11 +13,6 @@
   box-shadow: 0 24px 70px #0008;
 }
 
-.hero-visual .orbit,
-.hero-visual .character {
-  display: none;
-}
-
 .avatar {
   background:
     linear-gradient(135deg, rgba(162, 125, 255, 0.5), rgba(54, 191, 214, 0.32)),

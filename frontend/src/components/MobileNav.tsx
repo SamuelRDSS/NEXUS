@@ -1,13 +1,17 @@
-import { Heart, Home, Plus, Search, Users } from 'lucide-react'
+import { Compass, Home, Plus, Users } from 'lucide-react'
 
-export function MobileNav() {
+interface MobileNavProps {
+  onCreatePost: () => void
+}
+
+export function MobileNav({ onCreatePost }: MobileNavProps) {
   return (
-    <nav className="mobile-nav">
+    <nav className="mobile-nav" aria-label="Navegação principal móvel">
       <a className="active" href="#top"><Home size={18} />Início</a>
-      <a href="#explore"><Search size={18} />Explorar</a>
-      <a href="#feed"><Plus size={18} />Postar</a>
-      <a href="#community"><Heart size={18} />Comunidade</a>
-      <a href="#top"><Users size={18} />Perfil</a>
+      <a href="#explore"><Compass size={18} />Explorar</a>
+      <button type="button" onClick={onCreatePost}><Plus size={18} />Postar</button>
+      <a href="#communities"><Users size={18} />Comunidade</a>
+      <a href="#profile"><span className="mobile-avatar">S</span>Perfil</a>
     </nav>
   )
 }

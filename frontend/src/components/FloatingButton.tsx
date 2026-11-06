@@ -1,7 +1,11 @@
 import { Plus } from 'lucide-react'
 
-export function FloatingButton() {
+interface FloatingButtonProps {
+  onClick: () => void
+}
+
+export function FloatingButton({ onClick }: FloatingButtonProps) {
   return (
-    <button className="floating-button"><Plus size={20} /> Criar post</button>
+    <button type="button" className="floating-button" onClick={onClick}><Plus size={20} /> Criar post</button>
   )
 }
